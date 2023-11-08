@@ -1,0 +1,21 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: shop-frontend-nb
+  namespace: rh-demo
+  labels:
+    name: front-end
+    backstage.io/kubernetes-id: rhsummit-shop-demo
+    app.kubernetes.io/name: rhsummit-shop-demo
+    rht-gitops.com/janus-argocd: rhsummit-shop-demo
+spec:
+  #host:
+  to:
+    kind: Service
+    name: front-end
+    weight: 100
+  port:
+    targetPort: 8079
+  wildcardPolicy: None
+  tls:
+    termination: edge

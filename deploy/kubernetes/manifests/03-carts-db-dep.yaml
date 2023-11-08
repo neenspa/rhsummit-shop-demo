@@ -1,0 +1,42 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: carts-db
+  labels:
+    name: carts-db
+    backstage.io/kubernetes-id: rhsummit-shop-demo
+    app.kubernetes.io/name: rhsummit-shop-demo
+    rht-gitops.com/janus-argocd: rhsummit-shop-demo
+  namespace: rh-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: carts-db
+  template:
+    metadata:
+      labels:
+        name: carts-db
+        backstage.io/kubernetes-id: rhsummit-shop-demo
+        app.kubernetes.io/name: rhsummit-shop-demo
+        rht-gitops.com/janus-argocd: rhsummit-shop-demo
+    spec:
+      containers:
+        - name: carts-db
+          image: mongo:5.0.11
+          ports:
+            - name: mongo
+              containerPort: 27017
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-volume
+      serviceAccountName: storeuseradmin-sa
+      volumes:
+        - name: tmp-volume
+          emptyDir:
+            medium: Memory
+      nodeSelector:
+        beta.kubernetes.io/os: linux

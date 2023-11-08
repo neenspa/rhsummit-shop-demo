@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-db
+  labels:
+    name: user-db
+    backstage.io/kubernetes-id: rhsummit-shop-demo
+    app.kubernetes.io/name: rhsummit-shop-demo
+    rht-gitops.com/janus-argocd: rhsummit-shop-demo
+  namespace: rh-demo
+spec:
+  ports:
+    # the port that this service should serve on
+    - port: 27017
+      targetPort: 27017
+  selector:
+    name: user-db
